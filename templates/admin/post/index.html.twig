@@ -28,17 +28,6 @@
 			{% for post in posts %}
 
 				{% if post.publishedAt|date('Y-m-d H:i:s') <=  "now"|date('Y-m-d H:i:s') %}
-
-
-					{{ post.id }}
-					{{ "now"|date('Y-m-d H:i:s') }}
-
-					{{ post.publishedAt|date('Y-m-d H:i:s') }}
-
-
-					<br>
-
-
 					<tr>
 						<td>{{ post.id }}</td>
 						<td>{{ post.title }}</td>
