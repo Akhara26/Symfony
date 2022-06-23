@@ -15,13 +15,9 @@ class PostType extends AbstractType
         $builder
             ->add('title')
             ->add('content')
-            ->add('publisedAt')
             ->add('description')
-            ->add('slug')
-            ->add('createdAt')
-            ->add('publishedAt')
             ->add('categories')
-        ;
+            ->add('publishedAt');
     }
 
     public function configureOptions(OptionsResolver $resolver): void

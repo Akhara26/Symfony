@@ -55,9 +55,9 @@ class Post
     private $createdAt;
 
     /**
-     * @ORM\Column(type="datetime_immutable")
+     * @ORM\Column(type="datetime_immutable", nullable=true)
      */
-    private $updatedAft;
+    private $updatedAt;
 
     /**
      * @ORM\Column(type="datetime_immutable")

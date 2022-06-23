@@ -5,10 +5,11 @@ namespace App\Controller;
 use App\Entity\Post;
 use App\Form\PostType;
 use App\Repository\PostRepository;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\String\Slugger\AsciiSlugger;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 /**
  * @Route("/post")
@@ -33,9 +34,14 @@ class PostController extends AbstractController
         $post = new Post();
         $form = $this->createForm(PostType::class, $post);
         $form->handleRequest($request);
-        $post->setUpdatedAt(null); 
 
         if ($form->isSubmitted() && $form->isValid()) {
+
+            $slugger = new AsciiSlugger();
+            $post->setSlug($slugger->slug($post->getTitle()));
+
+            $post->setUpdatedAt(null);
+            $post->setcreatedAt(new \DateTimeImmutable('now'));
 
 
             $postRepository->add($post, true);
@@ -84,7 +90,7 @@ class PostController extends AbstractController
      */
     public function delete(Request $request, Post $post, PostRepository $postRepository): Response
     {
-        if ($this->isCsrfTokenValid('delete'.$post->getId(), $request->request->get('_token'))) {
+        if ($this->isCsrfTokenValid('delete' . $post->getId(), $request->request->get('_token'))) {
             $postRepository->remove($post, true);
         }
 
