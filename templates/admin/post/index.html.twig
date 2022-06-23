@@ -1,0 +1,50 @@
+{% extends 'navbar.html.twig' %}
+
+{% block title %}Post index
+{% endblock %}
+
+{% block body %}
+	<h1>Post index</h1>
+
+	<table class="table">
+		<thead>
+			<tr>
+				<th>Id</th>
+				<th>Title</th>
+				<th>Content</th>
+				<th>PublisedAt</th>
+				<th>Description</th>
+				<th>Slug</th>
+				<th>CreatedAt</th>
+				<th>UpdatedAt</th>
+				<th>PublishedAt</th>
+				<th>actions</th>
+			</tr>
+		</thead>
+		<tbody>
+			{% for post in posts %}
+				<tr>
+					<td>{{ post.id }}</td>
+					<td>{{ post.title }}</td>
+					<td>{{ post.content }}</td>
+					<td>{{ post.publisedAt ? post.publisedAt|date('Y-m-d H:i:s') : '' }}</td>
+					<td>{{ post.description }}</td>
+					<td>{{ post.slug }}</td>
+					<td>{{ post.createdAt ? post.createdAt|date('Y-m-d H:i:s') : '' }}</td>
+					<td>{{ post.updatedAt ? post.updatedAt|date('Y-m-d H:i:s') : '' }}</td>
+					<td>{{ post.publishedAt ? post.publishedAt|date('Y-m-d H:i:s') : '' }}</td>
+					<td>
+						<a href="{{ path('app_post_show', {'id': post.id}) }}">show</a>
+						<a href="{{ path('app_post_edit', {'id': post.id}) }}">edit</a>
+					</td>
+				</tr>
+			{% else %}
+				<tr>
+					<td colspan="10">no records found</td>
+				</tr>
+			{% endfor %}
+		</tbody>
+	</table>
+
+	<a href="{{ path('app_post_new') }}">Create new</a>
+{% endblock %}
