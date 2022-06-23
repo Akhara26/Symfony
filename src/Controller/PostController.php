@@ -12,7 +12,7 @@ use Symfony\Component\String\Slugger\AsciiSlugger;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 /**
- * @Route("/post")
+ * @Route("/")
  */
 class PostController extends AbstractController
 {
@@ -22,7 +22,7 @@ class PostController extends AbstractController
     public function index(PostRepository $postRepository): Response
     {
         return $this->render('admin/post/index.html.twig', [
-            'posts' => $postRepository->findAll(),
+            'posts' => $postRepository->returnallbyid(),
         ]);
     }
 

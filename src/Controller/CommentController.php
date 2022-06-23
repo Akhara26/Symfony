@@ -3,8 +3,10 @@
 namespace App\Controller;
 
 use App\Entity\Comment;
+use App\Entity\Post;
 use App\Form\CommentType;
 use App\Repository\CommentRepository;
+use App\Repository\PostRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -35,6 +37,10 @@ class CommentController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            // $comment->setPost(new PostRepository()->find($_GET["id"]));
+
+            $comment->setCreatedAt(new \DateTimeImmutable('now'));
+            $comment->setValid(1);
             $commentRepository->add($comment, true);
 
             return $this->redirectToRoute('app_comment_index', [], Response::HTTP_SEE_OTHER);
@@ -81,10 +87,23 @@ class CommentController extends AbstractController
      */
     public function delete(Request $request, Comment $comment, CommentRepository $commentRepository): Response
     {
-        if ($this->isCsrfTokenValid('delete'.$comment->getId(), $request->request->get('_token'))) {
+        if ($this->isCsrfTokenValid('delete' . $comment->getId(), $request->request->get('_token'))) {
             $commentRepository->remove($comment, true);
         }
 
+        return $this->redirectToRoute('app_comment_index', [], Response::HTTP_SEE_OTHER);
+    }
+
+    /**
+     * @Route("/{id}/valid", name="valide")
+     */
+    public function validerrr(Comment $commentaire): Response
+    {
+        if ($commentaire->isValid()) {
+            $commentaire->setValid(false);
+        } else {
+            $commentaire->setValid(true);
+        }
         return $this->redirectToRoute('app_comment_index', [], Response::HTTP_SEE_OTHER);
     }
 }

@@ -29,10 +29,7 @@ class Post
      */
     private $content;
 
-    /**
-     *@ORM\Column(type="datetime", nullable=true) 
-     */
-    private $publisedAt;
+
 
     /**
      * @ORM\ManyToMany(targetEntity=Category::class, mappedBy="posts")
@@ -231,5 +228,9 @@ class Post
         }
 
         return $this;
+    }
+    public function __toString()
+    {
+        return $this->title;
     }
 }

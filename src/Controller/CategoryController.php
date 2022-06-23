@@ -74,8 +74,6 @@ class CategoryController extends AbstractController
             'category' => $category,
             'form' => $form,
         ]);
-
-        
     }
 
     /**
@@ -83,7 +81,7 @@ class CategoryController extends AbstractController
      */
     public function delete(Request $request, Category $category, CategoryRepository $categoryRepository): Response
     {
-        if ($this->isCsrfTokenValid('admin/delete'.$category->getId(), $request->request->get('_token'))) {
+        if ($this->isCsrfTokenValid('admin/delete' . $category->getId(), $request->request->get('_token'))) {
             $categoryRepository->remove($category, true);
         }
 
