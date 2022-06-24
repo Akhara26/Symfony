@@ -4,7 +4,7 @@
 {% endblock %}
 
 {% block body %}
-	{% include "navbar.html.twig" %}
+	{% include "admin/navbarAdmin.html.twig" %}
 
 
 	<h1>Post index</h1>
@@ -20,19 +20,16 @@
 				<th>CreatedAt</th>
 				<th>UpdatedAt</th>
 				<th>PublishedAt</th>
-				<th>actions</th>
+				<th colspan="2">actions</th>
 			</tr>
 		</thead>
 		<tbody>
 
 			{% for post in posts %}
-
-				{% if post.publishedAt|date('Y-m-d H:i:s') <=  "now"|date('Y-m-d H:i:s') %}
 					<tr>
 						<td>{{ post.id }}</td>
 						<td>{{ post.title }}</td>
 						<td>{{ post.content }}</td>
-
 						<td>{{ post.description }}</td>
 						<td>{{ post.slug }}</td>
 						<td>{{ post.createdAt ? post.createdAt|date('Y-m-d H:i:s') : '' }}</td>
@@ -41,10 +38,11 @@
 						<td>
 							<a href="{{ path('app_post_show', {'id': post.id}) }}">show</a>
 							<a href="{{ path('app_post_edit', {'id': post.id}) }}">edit</a>
-							<a href="{{ path('app_comment_new', {'id': post.id}) }}">comment</a>
+						</td>
+						<td>
+							{{ include('admin/post/_delete_form.html.twig') }}
 						</td>
 					</tr>
-				{% endif %}
 
 			{% else %}
 				<tr>

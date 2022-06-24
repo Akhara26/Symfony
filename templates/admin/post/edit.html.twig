@@ -4,6 +4,9 @@
 {% endblock %}
 
 {% block body %}
+
+	{{ include('admin/navbarAdmin.html.twig') }}
+
 	<h1>Edit Post</h1>
 
 	{{ include('admin/post/_form.html.twig', {'button_label': 'Update'}) }}

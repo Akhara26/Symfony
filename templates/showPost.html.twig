@@ -12,35 +12,31 @@
                 <td>{{ post.id }}</td>
             </tr>
             <tr>
-                <th>Title</th>
+                <th>Post_title</th>
                 <td>{{ post.title }}</td>
             </tr>
             <tr>
-                <th>Content</th>
-                <td>{{ post.content }}</td>
-            </tr>
-            <tr>
-                <th>PublisedAt</th>
-                <td>{{ post.publisedAt ? post.publisedAt|date('Y-m-d H:i:s') : '' }}</td>
-            </tr>
-            <tr>
-                <th>Description</th>
+                <th>Post_description</th>
                 <td>{{ post.description }}</td>
             </tr>
             <tr>
-                <th>Slug</th>
+                <th>Post_content</th>
+                <td>{{ post.content }}</td>
+            </tr>
+            <tr>
+                <th>Post_slug</th>
                 <td>{{ post.slug }}</td>
             </tr>
             <tr>
-                <th>CreatedAt</th>
+                <th>Post_createdAt</th>
                 <td>{{ post.createdAt ? post.createdAt|date('Y-m-d H:i:s') : '' }}</td>
             </tr>
             <tr>
-                <th>UpdatedAt</th>
+                <th>Post_updatedAt</th>
                 <td>{{ post.updatedAt ? post.updatedAt|date('Y-m-d H:i:s') : '' }}</td>
             </tr>
             <tr>
-                <th>PublishedAt</th>
+                <th>Post_publishedAt</th>
                 <td>{{ post.publishedAt ? post.publishedAt|date('Y-m-d H:i:s') : '' }}</td>
             </tr>
         </tbody>
@@ -48,6 +44,6 @@
 
     <a href="{{ path('app_post_index') }}">back to list</a>
 
-    <a href="{{ path('app_post_edit', {'id': post.id}) }}">edit</a>
 
+    {{ include('admin/post/_delete_form.html.twig') }}
 {% endblock %}

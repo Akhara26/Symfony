@@ -12,23 +12,21 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
-/**
- * @Route("/comment")
- */
+
 class CommentController extends AbstractController
 {
     /**
-     * @Route("/", name="app_comment_index", methods={"GET"})
+     * @Route("/admin/comment", name="app_comment_index", methods={"GET"})
      */
     public function index(CommentRepository $commentRepository): Response
     {
         return $this->render('admin/comment/index.html.twig', [
-            'comments' => $commentRepository->findAll(),
+            'comments' => $commentRepository->findDesc(),
         ]);
     }
 
     /**
-     * @Route("/new", name="app_comment_new", methods={"GET", "POST"})
+     * @Route("/comment/new", name="app_comment_new", methods={"GET", "POST"})
      */
     public function new(Request $request, CommentRepository $commentRepository): Response
     {
@@ -52,8 +50,9 @@ class CommentController extends AbstractController
         ]);
     }
 
+    
     /**
-     * @Route("/{id}", name="app_comment_show", methods={"GET"})
+     * @Route("/comment/{id}", name="app_comment_show", methods={"GET"})
      */
     public function show(Comment $comment): Response
     {
@@ -63,27 +62,7 @@ class CommentController extends AbstractController
     }
 
     /**
-     * @Route("/{id}/edit", name="app_comment_edit", methods={"GET", "POST"})
-     */
-    public function edit(Request $request, Comment $comment, CommentRepository $commentRepository): Response
-    {
-        $form = $this->createForm(CommentType::class, $comment);
-        $form->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid()) {
-            $commentRepository->add($comment, true);
-
-            return $this->redirectToRoute('app_comment_index', [], Response::HTTP_SEE_OTHER);
-        }
-
-        return $this->renderForm('admin/comment/edit.html.twig', [
-            'comment' => $comment,
-            'form' => $form,
-        ]);
-    }
-
-    /**
-     * @Route("/{id}", name="app_comment_delete", methods={"POST"})
+     * @Route("/admin/comment/{id}", name="app_comment_delete", methods={"POST"})
      */
     public function delete(Request $request, Comment $comment, CommentRepository $commentRepository): Response
     {
@@ -95,15 +74,12 @@ class CommentController extends AbstractController
     }
 
     /**
-     * @Route("/{id}/valid", name="valide")
+     * @Route("/admin/comment/{id}/valid", name="valide")
      */
-    public function validerrr(Comment $commentaire): Response
+    public function validerrr(Comment $comment): Response
     {
-        if ($commentaire->isValid()) {
-            $commentaire->setValid(false);
-        } else {
-            $commentaire->setValid(true);
-        }
+        $comment->setValid(!$comment->isValid());
+
         return $this->redirectToRoute('app_comment_index', [], Response::HTTP_SEE_OTHER);
     }
 }

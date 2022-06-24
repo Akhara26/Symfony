@@ -1,0 +1,56 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Post{% endblock %}
+
+{% block body %}
+    <h1>Post</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ post.id }}</td>
+            </tr>
+            <tr>
+                <th>Post_title</th>
+                <td>{{ post.title }}</td>
+            </tr>
+            <tr>
+                <th>Post_description</th>
+                <td>{{ post.description }}</td>
+            </tr>
+            <tr>
+                <th>Post_content</th>
+                <td>{{ post.content }}</td>
+            </tr>
+            <tr>
+                <th>Post_slug</th>
+                <td>{{ post.slug }}</td>
+            </tr>
+            <tr>
+                <th>Post_createdAt</th>
+                <td>{{ post.createdAt ? post.createdAt|date('Y-m-d H:i:s') : '' }}</td>
+            </tr>
+            <tr>
+                <th>Post_updatedAt</th>
+                <td>{{ post.updatedAt ? post.updatedAt|date('Y-m-d H:i:s') : '' }}</td>
+            </tr>
+            <tr>
+                <th>Post_publishedAt</th>
+                <td>{{ post.publishedAt ? post.publishedAt|date('Y-m-d H:i:s') : '' }}</td>
+            </tr>
+        </tbody>
+    </table>
+    <h2>Commentaires: </h2>
+    <table>
+    {% for comment in post.comments %}
+        <h3>{{ comment.username }}</h3>
+        <br />
+        {{ comment.content }}
+        <p>------</p>
+    {% endfor %}
+    </table>
+
+    <a href="{{ path('app_post_index') }}">back to list</a>
+
+{% endblock %}

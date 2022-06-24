@@ -5,19 +5,20 @@ namespace App\Controller;
 use App\Entity\Post;
 use App\Form\PostType;
 use App\Repository\PostRepository;
+use Knp\Component\Pager\PaginatorInterface;
+use Doctrine\ORM\Tools\Pagination\Paginator;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use ContainerLfG6ken\PaginatorInterface_82dac15;
 use Symfony\Component\String\Slugger\AsciiSlugger;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
-/**
- * @Route("/")
- */
+
 class PostController extends AbstractController
 {
     /**
-     * @Route("/", name="app_post_index", methods={"GET"})
+     * @Route("/admin/post", name="app_post_index", methods={"GET"})
      */
     public function index(PostRepository $postRepository): Response
     {
@@ -27,7 +28,7 @@ class PostController extends AbstractController
     }
 
     /**
-     * @Route("/new", name="app_post_new", methods={"GET", "POST"})
+     * @Route("/admin/post/new", name="app_post_new", methods={"GET", "POST"})
      */
     public function new(Request $request, PostRepository $postRepository): Response
     {
@@ -56,17 +57,33 @@ class PostController extends AbstractController
     }
 
     /**
-     * @Route("/{id}", name="app_post_show", methods={"GET"})
+     * @Route("/post/{id}", name="app_post_show", methods={"GET"})
      */
     public function show(Post $post): Response
     {
-        return $this->render('user/post/show.html.twig', [
+        return $this->render('admin/post/show.html.twig', [
             'post' => $post,
         ]);
     }
 
     /**
-     * @Route("/{id}/edit", name="app_post_edit", methods={"GET", "POST"})
+     * @Route("/", name="accueil")
+     */
+    public function postForUser(Request $request, PostRepository $postRepository, PaginatorInterface $paginator): Response
+    {
+
+        $posts = $postRepository->returnallbyid();
+
+        $posts = $paginator->paginate($posts, 1, 5);
+
+
+        return $this->render('accueil.html.twig', [
+            "posts" => $posts
+        ]);
+    }
+
+    /**
+     * @Route("/admin/post/{id}/edit", name="app_post_edit", methods={"GET", "POST"})
      */
     public function edit(Request $request, Post $post, PostRepository $postRepository): Response
     {
@@ -74,6 +91,9 @@ class PostController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+
+            $post->setUpdatedAt(new \DateTimeImmutable());
+
             $postRepository->add($post, true);
 
             return $this->redirectToRoute('app_post_index', [], Response::HTTP_SEE_OTHER);
@@ -86,7 +106,7 @@ class PostController extends AbstractController
     }
 
     /**
-     * @Route("/{id}", name="app_post_delete", methods={"POST"})
+     * @Route("/admin/post/{id}", name="app_post_delete", methods={"POST"})
      */
     public function delete(Request $request, Post $post, PostRepository $postRepository): Response
     {

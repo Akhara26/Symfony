@@ -39,6 +39,15 @@ class CommentRepository extends ServiceEntityRepository
         }
     }
 
+    public function findDesc()
+   {
+       return $this->createQueryBuilder('c')
+           ->orderBy('c.id', 'DESC')
+           ->getQuery()
+           ->getResult()
+       ;
+   }
+
 //    /**
 //     * @return Comment[] Returns an array of Comment objects
 //     */

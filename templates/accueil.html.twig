@@ -1,0 +1,47 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Post index
+{% endblock %}
+
+{% block body %}
+	{% include "navbar.html.twig" %}
+
+
+	<h1>Accueil: Posts</h1>
+
+	<table class="table">
+		<thead>
+			<tr>
+				<th>Title</th>
+				<th>Description</th>
+				<th>PublishedAt</th>
+				<th>UpdatedAt</th>
+				<th>actions</th>
+			</tr>
+		</thead>
+		<tbody>
+
+			{% for post in posts %}
+
+				{% if post.publishedAt|date('Y-m-d H:i:s') <=  "now"|date('Y-m-d H:i:s') %}
+					<tr>
+						<td>{{ post.title }}</td>
+						<td>{{ post.description }}</td>
+						<td>{{ post.publishedAt ? post.publishedAt|date('Y-m-d H:i:s') : '' }}</td>
+						<td>{{ post.updatedAt ? post.updatedAt|date('Y-m-d H:i:s') : '' }}</td>
+						<td>
+							<a href="{{ path('app_post_show', {'id': post.id}) }}">show</a>
+							<a href="{{ path('app_comment_new', {'id': post.id}) }}">comment</a>
+						</td>
+					</tr>
+				{% endif %}
+			{% else %}
+				<tr>
+					<td colspan="5">no records found</td>
+				</tr>
+			{% endfor %}
+		</tbody>
+	</tbody>
+</table>
+{{ knp_pagination_render(posts) }}
+{% endblock %}
