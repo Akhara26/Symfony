@@ -31,7 +31,7 @@
 					<td>
 						<a href="{{ path('app_comment_show', {'id': comment.id}) }}">show</a>
 						<a href="{{ path('valide', {'id': comment.id}) }}">valider</a>
-
+						{{ include('admin/comment/_delete_form.html.twig') }}
 
 					</td>
 				</tr>

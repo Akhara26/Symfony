@@ -38,7 +38,7 @@ class CommentController extends AbstractController
             // $comment->setPost(new PostRepository()->find($_GET["id"]));
 
             $comment->setCreatedAt(new \DateTimeImmutable('now'));
-            $comment->setValid(1);
+            $comment->setValid(false);
             $commentRepository->add($comment, true);
 
             return $this->redirectToRoute('app_comment_index', [], Response::HTTP_SEE_OTHER);

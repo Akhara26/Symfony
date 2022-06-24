@@ -44,10 +44,12 @@
     <h2>Commentaires: </h2>
     <table>
     {% for comment in post.comments %}
-        <h3>{{ comment.username }}</h3>
-        <br />
-        {{ comment.content }}
-        <p>------</p>
+        {% if comment.valid %}
+            <h3>{{ comment.username }}</h3>
+            <br />
+            {{ comment.content }}
+            <p>------</p>
+        {% endif %}
     {% endfor %}
     </table>
 
